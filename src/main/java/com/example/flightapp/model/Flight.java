@@ -18,6 +18,23 @@ public class Flight {
     private LocalTime flightTime;
     private Double price;
 
-    @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Seat> seats = new ArrayList<>();
+
+    // Constructor without ID for saving new flights
+    public Flight(String destination, LocalDate date, LocalTime flightTime, Double price, List<Seat> seats) {
+        this.destination = destination;
+        this.date = date;
+        this.flightTime = flightTime;
+        this.price = price;
+        this.seats = seats;
+    }
+
+    public Flight() {
+
+    }
+
+    public Long getId() {
+        return id;
+    }
 }

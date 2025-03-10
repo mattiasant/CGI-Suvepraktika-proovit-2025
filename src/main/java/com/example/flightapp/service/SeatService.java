@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class SeatService {
@@ -15,7 +14,7 @@ public class SeatService {
     private SeatRepository seatRepository;
 
     public List<Seat> getAllSeats(Flight flight) {
-        List<Seat> allSeats = seatRepository.getAllSeats(flight);
+        List<Seat> allSeats = seatRepository.findByFlight(flight);
 
         return allSeats;
     }
