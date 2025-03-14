@@ -1,0 +1,29 @@
+import { Link } from "react-router-dom";
+
+function Flights({ flights }) {
+    console.log("Flights received in Flights.js:", flights);
+
+    if (!flights || flights.length === 0) {
+        return (
+            <div className="p-5">
+                <h2 className="text-2xl mb-4">No Flights Available</h2>
+                <p>There are no flights to show at the moment. Please check back later.</p>
+            </div>
+        );
+    }
+
+    return (
+        <div className="p-5">
+            <h2 className="text-2xl mb-4">Available Flights</h2>
+            <ul>
+                {flights.map((flight) => (
+                    <li key={flight.id}>
+                        {flight.destination} - {flight.date} - {flight.flightTime} - {flight.price}€
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+}
+
+export default Flights;

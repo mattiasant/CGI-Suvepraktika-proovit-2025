@@ -37,4 +37,20 @@ public class Flight {
     public Long getId() {
         return id;
     }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public LocalTime getFlightTime() {
+        return flightTime;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
 }

@@ -1,22 +1,22 @@
 package com.example.flightapp.controller;
 
 import com.example.flightapp.model.Flight;
-import com.example.flightapp.service.FlightService;
+import com.example.flightapp.repository.FlightRepository;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/flights")
 public class FlightController {
+
     @Autowired
-    private FlightService flightService;
+    private FlightRepository flightRepository;
 
     @GetMapping
-    public List<Flight> getAll() {
-        return flightService.getAllFlights();
+    public List<Flight> getAllFlights() {
+        List<Flight> flights = flightRepository.findAll();
+        System.out.println("Flights fetched: " + flights); // Debugging
+        return flights;
     }
 }
