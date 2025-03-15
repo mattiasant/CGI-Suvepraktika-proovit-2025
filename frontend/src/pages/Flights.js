@@ -17,8 +17,10 @@ function Flights({ flights }) {
             <h2 className="text-2xl mb-4">Available Flights</h2>
             <ul>
                 {flights.map((flight) => (
-                    <li key={flight.id}>
-                        {flight.destination} - {flight.date} - {flight.flightTime} - {flight.price}€
+                    <li key={flight.id} className="cursor-pointer">
+                        <Link to={`/flights/${flight.id}`} className="text-blue-600 hover:underline">
+                             {flight.destination} - {flight.date} - {flight.flightTime} - {flight.price}€
+                        </Link>
                     </li>
                 ))}
             </ul>

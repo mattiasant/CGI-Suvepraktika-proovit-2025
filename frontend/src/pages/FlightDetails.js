@@ -1,37 +1,29 @@
-import {Link, useParams} from "react-router-dom";
-import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
-function FlightDetails() {
-    const { id } = useParams();  // Extract the flight id from the URL
-    const [flight, setFlight] = useState(null);
-
-    useEffect(() => {
-        fetch(`http://localhost:8080/flights/${id}`)
-            .then(response => response.json())
-            .then(data => setFlight(data))
-            .catch(error => console.error("Error fetching flight details:", error));
-    }, [id]);
-
-    if (!flight) return <div>Loading...</div>;
+function Flights({ flights }) {
+    if (!flights || flights.length === 0) {
+        return (
+            <div className="p-5">
+                <h2 className="text-2xl mb-4">No Flights Available</h2>
+                <p>There are no flights matching your criteria.</p>
+            </div>
+        );
+    }
 
     return (
         <div className="p-5">
-            <h2 className="text-2xl mb-4">Flight Details</h2>
-            <div className="mb-4">
-                <strong>Flight Number:</strong> {flight.id}
-            </div>
-            <div className="mb-4">
-                <strong>Destination:</strong> {flight.destination}
-            </div>
-            <div className="mb-4">
-                <strong>Departure Time:</strong> {flight.departureTime}
-            </div>
-            <div className="mb-4">
-                <strong>Price:</strong> ${flight.price}
-            </div>
-            <Link to="/" className="text-blue-500">Back to Flights</Link>
+            <h2 className="text-2xl mb-4">Available Flights</h2>
+            <ul>
+                {flights.map((flight) => (
+                    <li key={flight.id} className="cursor-pointer">
+                        <Link to={`/flights/${flight.id}`} className="text-blue-600 hover:underline">
+                            ✈️ {flight.destination} - {flight.date} - {flight.flightTime} - {flight.price}€
+                        </Link>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 }
 
-export default FlightDetails;
+export default Flights;
