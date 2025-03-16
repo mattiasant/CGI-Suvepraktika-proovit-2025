@@ -41,28 +41,41 @@ public class FlightController {
                 });
     }
 
-    // ✅ Seat selection endpoint
     @PostMapping("/{id}/select-seat")
     public ResponseEntity<String> selectSeat(@PathVariable Long id, @RequestBody SeatSelectionRequest request) {
-        Optional<Seat> seatOpt = seatRepository.findById(request.getSeatId());
+        if (request.getSeatId() == null || request.getSeatId().isEmpty()) {
+            return ResponseEntity.badRequest().body("Seat ID is missing!");
+        }
+
+        Optional<Flight> flightOpt = flightRepository.findById(id);
+        if (flightOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Optional<Seat> seatOpt = seatRepository.findBySeatNumberAndFlight_Id(request.getSeatId(), id);
 
         if (seatOpt.isPresent()) {
             Seat seat = seatOpt.get();
-            if (seat.isOccupied()) {  // ✅ Fix: Only book if the seat is available
+            if (seat.isOccupied()) {
                 return ResponseEntity.badRequest().body("Seat is already booked!");
             }
 
-            seat.setOccupied(true); // ✅ Set seat as occupied
+            seat.setOccupied(true);
             seatRepository.save(seat);
-            return ResponseEntity.ok("✅ Seat booked successfully!");
+            return ResponseEntity.ok("Seat booked successfully!");
         }
         return ResponseEntity.notFound().build();
     }
 
-    // ✅ Request class for seat booking
     public static class SeatSelectionRequest {
-        private Long seatId;
-        public Long getSeatId() { return seatId; }
-        public void setSeatId(Long seatId) { this.seatId = seatId; }
+        private String seatId;
+
+        public String getSeatId() {
+            return seatId;
+        }
+
+        public void setSeatId(String seatId) {
+            this.seatId = seatId;
+        }
     }
 }
