@@ -1,5 +1,6 @@
 package com.example.flightapp.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,12 +13,29 @@ public class Seat {
     private boolean isOccupied;
     private boolean isWindow;
     private boolean hasExtraLegroom;
+
+    public Seat(Long id, String seatNumber, boolean isOccupied, boolean isWindow, boolean hasExtraLegroom, boolean isNearExit, boolean isFirstClass, Flight flight) {
+        this.id = id;
+        this.seatNumber = seatNumber;
+        this.isOccupied = isOccupied;
+        this.isWindow = isWindow;
+        this.hasExtraLegroom = hasExtraLegroom;
+        this.isNearExit = isNearExit;
+        this.isFirstClass = isFirstClass;
+        this.flight = flight;
+    }
+
     private boolean isNearExit;
     private boolean isFirstClass;
 
     @ManyToOne
     @JoinColumn(name = "flight_id")
+    @JsonBackReference
     private Flight flight;
+
+    public Seat() {
+
+    }
 
     public String getSeatNumber() {
         return seatNumber;

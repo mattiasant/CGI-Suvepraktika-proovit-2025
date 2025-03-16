@@ -1,5 +1,6 @@
 package com.example.flightapp.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -18,7 +19,8 @@ public class Flight {
     private LocalTime flightTime;
     private Double price;
 
-    @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonManagedReference  // ✅ Prevents infinite recursion
     private List<Seat> seats = new ArrayList<>();
 
     // Constructor without ID for saving new flights
@@ -52,5 +54,9 @@ public class Flight {
 
     public Double getPrice() {
         return price;
+    }
+
+    public List<Seat> getSeats() {
+        return seats;
     }
 }
